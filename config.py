@@ -28,6 +28,7 @@
 import os
 import subprocess
 from libqtile import hook
+
 # Originales
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -39,14 +40,15 @@ from libqtile.widget import backlight
 from libqtile.widget import GenPollText
 
 # Variales
-fuente="HackNerdFont"
-blanco='ffffff'
-morado='a15cef'
-plomo='404040'
-arch_size=24
-arch_color='#1793D1'
-iconos_sizes=17
-path_archivos="/home/pablo/.config/qtile/Complementos/"
+fuente = "HackNerdFont"
+blanco = "ffffff"
+morado = "a15cef"
+plomo = "404040"
+arch_size = 24
+arch_color = "#1793D1"
+iconos_sizes = 17
+path_archivos = "/home/pablo/.config/qtile/Complementos/"
+
 
 # Funciones
 # Separador
@@ -57,10 +59,11 @@ def separador():
         size_percent=70,
     )
 
+
 # texto Utilizado para modificar widget.WindowName
 def texto(text):
     if ("pablo@arch:" in text) | ("root@arch:" in text):
-        text = text.replace("pablo@arch:","Terminal: ")
+        text = text.replace("pablo@arch:", "Terminal: ")
         text = text.replace("root@arch:", "Terminal(root): ")
     if "Mozilla Firefox" in text:
         text = "Firefox"
@@ -73,22 +76,27 @@ def texto(text):
 
 def obtener_nota():
     try:
-        with open(path_archivos+"nota.txt","r") as archivo:
+        with open(path_archivos + "nota.txt", "r") as archivo:
             contenido = archivo.read().strip()
     except FileNotFoundError:
         contenido = "Empty file"
     return contenido
 
+
 def obtener_ip():
     try:
-        with open(path_archivos+"ip.txt","r") as archivo:
+        with open(path_archivos + "ip.txt", "r") as archivo:
             contenido = archivo.readline().strip()
     except FileNotFoundError:
         contenido = "Empty file"
     return contenido
 
+
 widget_nota = GenPollText(func=obtener_nota, update_interval=60)
-widget_ip = GenPollText(func=obtener_ip, update_interval=60,)
+widget_ip = GenPollText(
+    func=obtener_ip,
+    update_interval=60,
+)
 
 # Configuracion
 mod = "mod4"
@@ -105,14 +113,23 @@ keys = [
     Key([mod], "c", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key(
+        [mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"
+    ),
+    Key(
+        [mod, "shift"],
+        "l",
+        lazy.layout.shuffle_right(),
+        desc="Move window to the right",
+    ),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key(
+        [mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"
+    ),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
@@ -130,65 +147,124 @@ keys = [
     Key([mod], "Tab", lazy.next_layout(), desc="Next layout"),
     Key([mod, "shift"], "Tab", lazy.prev_layout(), desc="Previous layout"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window",),
-
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    Key(
+        [mod],
+        "f",
+        lazy.window.toggle_fullscreen(),
+        desc="Toggle fullscreen on the focused window",
+    ),
+    Key(
+        [mod],
+        "t",
+        lazy.window.toggle_floating(),
+        desc="Toggle floating on the focused window",
+    ),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    #Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-
+    # Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     # Comandos propios
     Key([mod], "m", lazy.spawn("rofi -show drun"), desc="Open Rofi"),
     Key([mod, "shift"], "f", lazy.spawn("firefox"), desc="Open Firefox"),
-    Key([mod, "shift"], "p", lazy.spawn("i3lock -u -i /home/pablo/Pictures/i3.png"), desc="Open i3lock"),
+    Key(
+        [mod, "shift"],
+        "p",
+        lazy.spawn("i3lock -u -i /home/pablo/Pictures/i3.png"),
+        desc="Open i3lock",
+    ),
     Key([mod], "e", lazy.spawn("thunar"), desc="Open Thunar"),
     Key([mod], "b", lazy.hide_show_bar("top")),
-    Key([mod], "space", lazy.widget["keyboardlayout"].next_keyboard(), desc="Next keyboard layout."),
-    Key([mod], "s", lazy.spawn("flameshot gui"), desc="Run flameshot"),
-    
     Key(
-        [mod, "shift"], "t", 
+        [mod],
+        "space",
+        lazy.widget["keyboardlayout"].next_keyboard(),
+        desc="Next keyboard layout.",
+    ),
+    Key([mod], "s", lazy.spawn("flameshot gui"), desc="Run flameshot"),
+    Key(["control", "mod1"], "t", lazy.spawn("alacritty"), desc="Open Alacritty"),
+    Key(
+        [mod, "shift"],
+        "t",
         lazy.window.toggle_floating(),
         lazy.window.set_size_floating(600, 400),
         lazy.window.center(),
         desc="Open floating terminal",
     ),
-
     Key(
-        [mod, "control"], "t", 
+        [mod, "control"],
+        "t",
         lazy.window.toggle_floating(),
         lazy.window.set_size_floating(600, 400),
         lazy.window.set_position(989, 41),
         desc="Open floating terminal",
     ),
-    
-
     # Mover apps entre ventanas
-    Key([mod, "shift"], "1", lazy.window.togroup("1")), 
-    Key([mod, "shift"], "2", lazy.window.togroup("2")), 
-    Key([mod, "shift"], "3", lazy.window.togroup("3")), 
-    Key([mod, "shift"], "4", lazy.window.togroup("4")), 
-    Key([mod, "shift"], "5", lazy.window.togroup("5")), 
-    Key([mod, "shift"], "6", lazy.window.togroup("6")), 
-
+    Key([mod, "shift"], "1", lazy.window.togroup("1")),
+    Key([mod, "shift"], "2", lazy.window.togroup("2")),
+    Key([mod, "shift"], "3", lazy.window.togroup("3")),
+    Key([mod, "shift"], "4", lazy.window.togroup("4")),
+    Key([mod, "shift"], "5", lazy.window.togroup("5")),
+    Key([mod, "shift"], "6", lazy.window.togroup("6")),
     # Ventanas flotantes
-    Key([mod, "shift"], "n", lazy.window.center(), desc="Mover ventana flotante izquierda"),
-    
-    Key([mod, "shift"], "Left", lazy.window.move_floating(-20, 0), desc="Mover ventana flotante izquierda"),
-    Key([mod, "shift"], "Right", lazy.window.move_floating(20, 0), desc="Mover ventana flotante derecha"),
-    Key([mod, "shift"], "Up", lazy.window.move_floating(0, -20), desc="Mover ventana flotante arriba"),
-    Key([mod, "shift"], "Down", lazy.window.move_floating(0, 20), desc="Mover ventana flotante abajo"),
-
-    Key([mod, "control"], "Left", lazy.window.resize_floating(-20, 0), desc="Resize ventana flotante izquierda"),
-    Key([mod, "control"], "Right", lazy.window.resize_floating(20, 0), desc="Resize ventana flotante izquierda"),
-    Key([mod, "control"], "Up", lazy.window.resize_floating(0, -20), desc="Resize ventana flotante izquierda"),
-    Key([mod, "control"], "Down", lazy.window.resize_floating(0, 20), desc="Resize ventana flotante izquierda"),
+    Key(
+        [mod, "shift"],
+        "n",
+        lazy.window.center(),
+        desc="Mover ventana flotante izquierda",
+    ),
+    Key(
+        [mod, "shift"],
+        "Left",
+        lazy.window.move_floating(-20, 0),
+        desc="Mover ventana flotante izquierda",
+    ),
+    Key(
+        [mod, "shift"],
+        "Right",
+        lazy.window.move_floating(20, 0),
+        desc="Mover ventana flotante derecha",
+    ),
+    Key(
+        [mod, "shift"],
+        "Up",
+        lazy.window.move_floating(0, -20),
+        desc="Mover ventana flotante arriba",
+    ),
+    Key(
+        [mod, "shift"],
+        "Down",
+        lazy.window.move_floating(0, 20),
+        desc="Mover ventana flotante abajo",
+    ),
+    Key(
+        [mod, "control"],
+        "Left",
+        lazy.window.resize_floating(-20, 0),
+        desc="Resize ventana flotante izquierda",
+    ),
+    Key(
+        [mod, "control"],
+        "Right",
+        lazy.window.resize_floating(20, 0),
+        desc="Resize ventana flotante izquierda",
+    ),
+    Key(
+        [mod, "control"],
+        "Up",
+        lazy.window.resize_floating(0, -20),
+        desc="Resize ventana flotante izquierda",
+    ),
+    Key(
+        [mod, "control"],
+        "Down",
+        lazy.window.resize_floating(0, 20),
+        desc="Resize ventana flotante izquierda",
+    ),
 ]
 
-groups = [Group(i) for i in ["","","󰝰","󱓞","",""]]
+groups = [Group(i) for i in ["", "", "󰝰", "󱓞", "", ""]]
 
-for i,group in enumerate(groups):
-    escritorio=str(i+1)
+for i, group in enumerate(groups):
+    escritorio = str(i + 1)
     keys.extend(
         [
             # mod1 + letter of group = switch to group
@@ -214,26 +290,22 @@ for i,group in enumerate(groups):
 
 layouts = [
     layout.Columns(
-        border_width=0, 
+        border_width=0,
         margin=8,
-
     ),
     layout.Max(
         margin=8,
     ),
-   
     layout.Spiral(
-        border_width=0, 
+        border_width=0,
         margin=8,
     ),
-
     layout.MonadWide(
-        border_width=0, 
+        border_width=0,
         margin=8,
     ),
-
     layout.RatioTile(
-        border_width=0, 
+        border_width=0,
         margin=8,
     ),
 ]
@@ -255,99 +327,90 @@ screens = [
                     foreground=arch_color,
                 ),
                 separador(),
-
                 widget.GroupBox(
                     active=blanco,
                     inactive=plomo,
                     disable_drag=True,
-                    highlight_method='text',
+                    highlight_method="text",
                     center_aligned=True,
                     fontsize=iconos_sizes,
                     hide_unused=False,
                     padding=10,
                     this_current_screen_border=morado,
-                    urgent_border='#010000'
+                    urgent_border="#010000",
                 ),
                 separador(),
                 widget.WindowName(
-                    parse_text = texto,
+                    parse_text=texto,
                 ),
                 widget.Spacer(),
-                separador(), 
-                
-                widget.WidgetBox([
-                    separador(),
-
-                    widget.Net(
-                        format='{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}',
-                    ),
-                    separador(),
-
-                    widget.DF(
-                        measure='G',
-                        partition='/',
-                        warn_space=10,
-                        visible_on_warn=False,
-                    ),
-                    separador(),
-
-                    widget.Memory(
-                        measure_mem='G',
-                    ),
-                    separador(),
-
-                    widget.CPU(
-                        padding=5,
-                        foreground=blanco,
-                    ),
-                    separador(),
-
-                    widget_ip,
-                ],
-                text_open='[>] System',
-                text_closed='[<] System'
-                ),
-                               
                 separador(),
-
+                widget.WidgetBox(
+                    [
+                        separador(),
+                        widget.Net(
+                            format="{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}",
+                        ),
+                        separador(),
+                        widget.DF(
+                            measure="G",
+                            partition="/",
+                            warn_space=10,
+                            visible_on_warn=False,
+                        ),
+                        separador(),
+                        widget.Memory(
+                            measure_mem="G",
+                        ),
+                        separador(),
+                        widget.CPU(
+                            padding=5,
+                            foreground=blanco,
+                        ),
+                        separador(),
+                        widget_ip,
+                    ],
+                    text_open="[>] System",
+                    text_closed="[<] System",
+                ),
+                separador(),
                 widget_nota,
                 separador(),
-
                 widget.CurrentLayout(),
-                separador(), 
-
+                separador(),
                 widget.TextBox(
                     text="󱂬 ",
                     fontsize=19,
                 ),
-
                 widget.WindowCount(
-                   show_zero=True, 
+                    show_zero=True,
                 ),
                 separador(),
-
                 widget.Systray(
                     icon_size=iconos_sizes,
                     padding=5,
                 ),
                 separador(),
-
                 widget.Clock(
                     format="%a %d-%m-%Y %H:%M",
                     foreground=blanco,
                 ),
                 separador(),
-
                 widget.KeyboardLayout(
-                    configured_keyboards=['us','es'],
+                    configured_keyboards=["us", "es"],
                 ),
                 separador(),
             ],
             30,
-            background='#010000',
+            background="#010000",
             opacity=0.85,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
-            border_color=["ffffff", "ffffff", "404040", "ffffff"],  # Borders are magenta
+            border_color=[
+                "ffffff",
+                "ffffff",
+                "404040",
+                "ffffff",
+            ],  # Borders are magenta
             margin=[5, 10, 0, 10],
         ),
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
@@ -359,9 +422,16 @@ screens = [
 
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
-    #Click([mod], "Button2", lazy.window.bring_to_front()),
+    Drag(
+        [mod],
+        "Button1",
+        lazy.window.set_position_floating(),
+        start=lazy.window.get_position(),
+    ),
+    Drag(
+        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
+    ),
+    # Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
 dgroups_key_binder = None
@@ -371,17 +441,17 @@ bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
 floating_layout = layout.Floating(
-    border_width = 0,
+    border_width=0,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
-        #*layout.Floating.default_float_rules,
+        # *layout.Floating.default_float_rules,
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-    ]
+    ],
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
@@ -404,9 +474,10 @@ wl_input_rules = None
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
 
+
 # Parte de Startup
 # Al iniciar ejecuta autostart.sh
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~')
-    subprocess.Popen([home + '/.config/qtile/autostart.sh'])
+    home = os.path.expanduser("~")
+    subprocess.Popen([home + "/.config/qtile/autostart.sh"])

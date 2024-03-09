@@ -185,6 +185,7 @@ keys = [
         desc="Next keyboard layout.",
     ),
     Key([mod], "s", lazy.spawn("flameshot gui"), desc="Run flameshot"),
+    Key([mod], "q", lazy.spawn("qalculate-gtk"), desc="Run flameshot"),
     Key(
         ["control", "mod1"],
         "t",
@@ -470,6 +471,7 @@ floating_layout = layout.Floating(
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
         Match(wm_class="Alacritty-float"),
+        Match(wm_class="Qalculate-gtk"),
     ],
 )
 auto_fullscreen = True

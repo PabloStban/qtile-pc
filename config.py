@@ -32,12 +32,14 @@ from libqtile import hook
 # Originales
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.layout import floating
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.widget import WindowName
 import re
 from libqtile.widget import backlight
 from libqtile.widget import GenPollText
+from libqtile.config import Key
 
 # Variales
 fuente = "HackNerdFont"
@@ -143,7 +145,10 @@ keys = [
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
-    Key([mod], "Return", lazy.spawn("kitty"), desc="Launch terminal"),
+    Key([mod], "Return", lazy.spawn("kitty"), desc="Open kitty terminal"),
+    Key(
+        [mod, "control"], "Return", lazy.spawn("alacritty"), desc="Open kitty terminal"
+    ),
     Key([mod], "Tab", lazy.next_layout(), desc="Next layout"),
     Key([mod, "shift"], "Tab", lazy.prev_layout(), desc="Previous layout"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
@@ -172,7 +177,7 @@ keys = [
         desc="Open i3lock",
     ),
     Key([mod], "e", lazy.spawn("thunar"), desc="Open Thunar"),
-    Key([mod], "b", lazy.hide_show_bar("top")),
+    Key([mod], "y", lazy.hide_show_bar("top")),
     Key(
         [mod],
         "space",
@@ -180,14 +185,19 @@ keys = [
         desc="Next keyboard layout.",
     ),
     Key([mod], "s", lazy.spawn("flameshot gui"), desc="Run flameshot"),
-    Key(["control", "mod1"], "t", lazy.spawn("alacritty"), desc="Open Alacritty"),
+    Key(
+        ["control", "mod1"],
+        "t",
+        lazy.spawn("alacritty --class Alacritty-float"),
+        desc="Open Alacritty Float",
+    ),
     Key(
         [mod, "shift"],
         "t",
         lazy.window.toggle_floating(),
         lazy.window.set_size_floating(600, 400),
         lazy.window.center(),
-        desc="Open floating terminal",
+        desc="Move the floating window at the center",
     ),
     Key(
         [mod, "control"],
@@ -195,8 +205,16 @@ keys = [
         lazy.window.toggle_floating(),
         lazy.window.set_size_floating(600, 400),
         lazy.window.set_position(989, 41),
-        desc="Open floating terminal",
+        desc="Move the floating window at the top right",
     ),
+    Key([mod], "o", lazy.window.move_to_bottom(), desc="Mover la ventana hacia atras"),
+    Key(
+        [mod, "shift"],
+        "o",
+        lazy.window.move_to_top(),
+        desc="Mover la ventana hacia adelante",
+    ),
+    Key([mod], "b", lazy.group.focus_back(), desc="Mover la ventana hacia atras"),
     # Mover apps entre ventanas
     Key([mod, "shift"], "1", lazy.window.togroup("1")),
     Key([mod, "shift"], "2", lazy.window.togroup("2")),
@@ -206,10 +224,10 @@ keys = [
     Key([mod, "shift"], "6", lazy.window.togroup("6")),
     # Ventanas flotantes
     Key(
-        [mod, "shift"],
-        "n",
+        [mod, "mod1"],
+        "t",
         lazy.window.center(),
-        desc="Mover ventana flotante izquierda",
+        desc="Move the floating window at the center",
     ),
     Key(
         [mod, "shift"],
@@ -451,6 +469,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
+        Match(wm_class="Alacritty-float"),
     ],
 )
 auto_fullscreen = True

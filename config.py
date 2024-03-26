@@ -93,8 +93,7 @@ def obtener_ip():
         contenido = "Empty file"
     return contenido
 
-
-widget_nota = GenPollText(func=obtener_nota, update_interval=60)
+widget_nota = GenPollText(func=obtener_nota, update_interval=5)
 widget_ip = GenPollText(
     func=obtener_ip,
     update_interval=60,
@@ -113,6 +112,7 @@ keys = [
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "c", lazy.layout.next(), desc="Move window focus to other window"),
+
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key(
@@ -217,6 +217,9 @@ keys = [
     ),
     Key([mod], "b", lazy.group.focus_back(), desc="Mover la ventana hacia atras"),
     # Mover apps entre ventanas
+    
+    Key([mod], "bracketright", lazy.screen.next_group(), desc="Move to next group"),
+    Key([mod], "bracketleft", lazy.screen.prev_group(), desc="Move to previous group"),
     Key([mod, "shift"], "1", lazy.window.togroup("1")),
     Key([mod, "shift"], "2", lazy.window.togroup("2")),
     Key([mod, "shift"], "3", lazy.window.togroup("3")),
@@ -502,3 +505,4 @@ wmname = "LG3D"
 def autostart():
     home = os.path.expanduser("~")
     subprocess.Popen([home + "/.config/qtile/autostart.sh"])
+    subprocess.Popen([home + "/.config/qtile/ip.sh"])

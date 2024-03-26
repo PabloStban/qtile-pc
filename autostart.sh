@@ -14,7 +14,6 @@
 # iconos del sistema
 udiskie -t &
 nm-applet &
-#volumeicon &
-#nitrogen --restore &
+volumeicon &
 feh --bg-fill $HOME/Pictures/cyberpunk.jpg
 picom &

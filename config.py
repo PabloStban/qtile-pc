@@ -93,6 +93,7 @@ def obtener_ip():
         contenido = "Empty file"
     return contenido
 
+
 widget_nota = GenPollText(func=obtener_nota, update_interval=5)
 widget_ip = GenPollText(
     func=obtener_ip,
@@ -112,7 +113,6 @@ keys = [
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "c", lazy.layout.next(), desc="Move window focus to other window"),
-
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key(
@@ -169,7 +169,7 @@ keys = [
     # Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     # Comandos propios
     Key([mod], "m", lazy.spawn("rofi -show drun"), desc="Open Rofi"),
-    Key([mod, "shift"], "f", lazy.spawn("firefox"), desc="Open Firefox"),
+    Key([mod, "shift"], "f", lazy.spawn("firejail firefox"), desc="Open Firefox"),
     Key(
         [mod, "shift"],
         "p",
@@ -217,7 +217,6 @@ keys = [
     ),
     Key([mod], "b", lazy.group.focus_back(), desc="Mover la ventana hacia atras"),
     # Mover apps entre ventanas
-    
     Key([mod], "bracketright", lazy.screen.next_group(), desc="Move to next group"),
     Key([mod], "bracketleft", lazy.screen.prev_group(), desc="Move to previous group"),
     Key([mod, "shift"], "1", lazy.window.togroup("1")),
@@ -283,7 +282,7 @@ keys = [
     ),
 ]
 
-groups = [Group(i) for i in ["", "", "󰝰", "󱓞", "", ""]]
+groups = [Group(i) for i in ["", "", "󰝰", "󱓞", "", "󰙯"]]
 
 for i, group in enumerate(groups):
     escritorio = str(i + 1)

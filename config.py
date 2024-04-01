@@ -282,7 +282,7 @@ keys = [
     ),
 ]
 
-groups = [Group(i) for i in ["", "", "󰝰", "󱓞", "", "󰙯"]]
+groups = [Group(i) for i in ["", "", "󰝰", "", "󱓞", "", "", "󰙯", ""]]
 
 for i, group in enumerate(groups):
     escritorio = str(i + 1)
@@ -356,7 +356,7 @@ screens = [
                     center_aligned=True,
                     fontsize=iconos_sizes,
                     hide_unused=False,
-                    padding=10,
+                    padding=6,
                     this_current_screen_border=morado,
                     urgent_border="#010000",
                 ),
@@ -421,6 +421,7 @@ screens = [
                     configured_keyboards=["us", "es"],
                 ),
                 separador(),
+                widget.Spacer(length=10),
             ],
             30,
             background="#010000",

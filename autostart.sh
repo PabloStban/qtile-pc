@@ -15,5 +15,5 @@
 udiskie -t &
 nm-applet &
 volumeicon &
-feh --bg-fill $HOME/Pictures/cyberpunk.jpg
+feh --bg-fill $HOME/Pictures/cyberpunk2.jpg
 picom &

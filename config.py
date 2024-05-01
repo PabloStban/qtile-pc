@@ -62,6 +62,9 @@ def separador():
     )
 
 
+# VPN hackthebox
+
+
 # texto Utilizado para modificar widget.WindowName
 def texto(text):
     if ("pablo@arch:" in text) | ("root@arch:" in text):
@@ -94,7 +97,46 @@ def obtener_ip():
     return contenido
 
 
+def obtener_vpn():
+    try:
+        with open(path_archivos + "vpn.txt", "r") as archivo:
+            contenido = archivo.readline().strip()
+    except FileNotFoundError:
+        contenido = "Empty file"
+    return contenido
+
+
+def color_vpn():
+    try:
+        with open(path_archivos + "vpn.txt", "r") as archivo:
+            contenido = archivo.readline().strip()
+            if contenido == "Disconnect":
+                color = "ff0000"
+            else:
+                color = "00ff00"
+            return color
+    except FileNotFoundError:
+        contenido = "Empty file"
+    return contenido
+
+
+color = color_vpn()
+
+
+def icono_vpn():
+    color = color_vpn()
+    if color == "00ff00":
+        icon = " "
+    else:
+        icon = " "
+    return icon
+
+
 widget_nota = GenPollText(func=obtener_nota, update_interval=5)
+widget_icono_vpn = GenPollText(
+    func=icono_vpn, fontsize=19, foreground=color, update_interval=60
+)
+widget_vpn = GenPollText(func=obtener_vpn, update_interval=60)
 widget_ip = GenPollText(
     func=obtener_ip,
     update_interval=60,
@@ -105,6 +147,19 @@ mod = "mod4"
 terminal = guess_terminal()
 
 keys = [
+    Key(
+        [mod],
+        "F1",
+        lazy.hide_show_bar(position="top"),
+        desc="Move focus to left",
+    ),
+    Key(
+        [mod],
+        "F2",
+        lazy.hide_show_bar(position="bottom"),
+        desc="Move focus to left",
+    ),
+    # Switch between windows
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
@@ -193,19 +248,19 @@ keys = [
         desc="Open Alacritty Float",
     ),
     Key(
-        [mod, "shift"],
-        "t",
-        lazy.window.toggle_floating(),
-        lazy.window.set_size_floating(600, 400),
+        ["control", "mod1"],
+        "c",
+        # lazy.window.set_size_floating(600, 400),
         lazy.window.center(),
         desc="Move the floating window at the center",
     ),
     Key(
-        [mod, "control"],
-        "t",
-        lazy.window.toggle_floating(),
-        lazy.window.set_size_floating(600, 400),
-        lazy.window.set_position(989, 41),
+        ["control", "mod1"],
+        "r",
+        # lazy.window.set_size_floating(600, 400),
+        lazy.spawn(
+            "/home/pablo/Documents/Archivos/bash/Utilities/position_right_top.sh"
+        ),
         desc="Move the floating window at the top right",
     ),
     Key([mod], "o", lazy.window.move_to_bottom(), desc="Mover la ventana hacia atras"),
@@ -235,25 +290,25 @@ keys = [
     Key(
         [mod, "shift"],
         "Left",
-        lazy.window.move_floating(-20, 0),
+        lazy.window.move_floating(-10, 0),
         desc="Mover ventana flotante izquierda",
     ),
     Key(
         [mod, "shift"],
         "Right",
-        lazy.window.move_floating(20, 0),
+        lazy.window.move_floating(10, 0),
         desc="Mover ventana flotante derecha",
     ),
     Key(
         [mod, "shift"],
         "Up",
-        lazy.window.move_floating(0, -20),
+        lazy.window.move_floating(0, -10),
         desc="Mover ventana flotante arriba",
     ),
     Key(
         [mod, "shift"],
         "Down",
-        lazy.window.move_floating(0, 20),
+        lazy.window.move_floating(0, 10),
         desc="Mover ventana flotante abajo",
     ),
     Key(
@@ -329,6 +384,10 @@ layouts = [
         border_width=0,
         margin=8,
     ),
+    layout.RatioTile(
+        border_width=0,
+        margin=8,
+    ),
 ]
 
 widget_defaults = dict(
@@ -367,7 +426,7 @@ screens = [
                 widget.Spacer(),
                 separador(),
                 widget.WidgetBox(
-                    [
+                    widgets=[
                         separador(),
                         widget.Net(
                             format="{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}",
@@ -388,14 +447,11 @@ screens = [
                             padding=5,
                             foreground=blanco,
                         ),
-                        separador(),
-                        widget_ip,
                     ],
-                    text_open="[>] System",
-                    text_closed="[<] System",
+                    text_closed=("󰕭"),
+                    text_open="󰕭",
+                    fontsize=19,
                 ),
-                separador(),
-                widget_nota,
                 separador(),
                 widget.CurrentLayout(),
                 separador(),
@@ -413,7 +469,12 @@ screens = [
                 ),
                 separador(),
                 widget.Clock(
-                    format="%a %d-%m-%Y %H:%M",
+                    format="%a %d-%m-%Y",
+                    foreground=blanco,
+                ),
+                separador(),
+                widget.Clock(
+                    format="%H:%M",
                     foreground=blanco,
                 ),
                 separador(),
@@ -423,7 +484,7 @@ screens = [
                 separador(),
                 widget.Spacer(length=10),
             ],
-            30,
+            32,
             background="#010000",
             opacity=0.85,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
@@ -439,8 +500,45 @@ screens = [
         # By default we handle these events delayed to already improve performance, however your system might still be struggling
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
         # x11_drag_polling_rate = 60,
+        #
+        bottom=bar.Bar(
+            [
+                widget.Spacer(length=15),
+                widget.TextBox(
+                    text="",
+                    fontsize=19,
+                    foreground=morado,
+                ),
+                widget_nota,
+                widget.Spacer(),
+                separador(),
+                widget.TextBox(
+                    text="󰖟 ",
+                    fontsize=19,
+                    foreground=morado,
+                ),
+                widget_ip,
+                separador(),
+                widget_icono_vpn,
+                widget_vpn,
+                separador(),
+                widget.Spacer(length=10),
+            ],
+            32,
+            background="#010000",
+            opacity=0.85,
+            border_width=[0, 0, 0, 0],  # Draw top and bottom borders
+            border_color=[
+                "ffffff",
+                "ffffff",
+                "404040",
+                "ffffff",
+            ],  # Borders are magenta
+            margin=[0, 10, 5, 10],
+        ),
     ),
 ]
+
 
 # Drag floating layouts.
 mouse = [
@@ -453,7 +551,7 @@ mouse = [
     Drag(
         [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
     ),
-    # Click([mod], "Button2", lazy.window.bring_to_front()),
+    Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
 dgroups_key_binder = None
@@ -466,7 +564,7 @@ floating_layout = layout.Floating(
     border_width=0,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
-        # *layout.Floating.default_float_rules,
+        *layout.Floating.default_float_rules,
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
@@ -506,3 +604,4 @@ def autostart():
     home = os.path.expanduser("~")
     subprocess.Popen([home + "/.config/qtile/autostart.sh"])
     subprocess.Popen([home + "/.config/qtile/ip.sh"])
+    subprocess.Popen([home + "/.config/qtile/vpn.sh"])

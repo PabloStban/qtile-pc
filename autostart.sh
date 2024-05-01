@@ -12,8 +12,10 @@
 #xrandr --output Virtual-1 --mode 1600x900_60.00
 
 # iconos del sistema
+
+qtile cmd-obj -o cmd -f hide_show_bar
 udiskie -t &
 nm-applet &
 volumeicon &
-feh --bg-fill $HOME/Pictures/cyberpunk2.jpg
+feh --bg-fill $HOME/Pictures/arch.png
 picom &

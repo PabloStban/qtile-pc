@@ -62,9 +62,6 @@ def separador():
     )
 
 
-# VPN hackthebox
-
-
 # texto Utilizado para modificar widget.WindowName
 def texto(text):
     if ("pablo@arch:" in text) | ("root@arch:" in text):
@@ -82,6 +79,15 @@ def texto(text):
 def obtener_nota():
     try:
         with open(path_archivos + "nota.txt", "r") as archivo:
+            contenido = archivo.read().strip()
+    except FileNotFoundError:
+        contenido = "Empty file"
+    return contenido
+
+
+def obtener_target():
+    try:
+        with open(path_archivos + "target.txt", "r") as archivo:
             contenido = archivo.read().strip()
     except FileNotFoundError:
         contenido = "Empty file"
@@ -106,40 +112,12 @@ def obtener_vpn():
     return contenido
 
 
-def color_vpn():
-    try:
-        with open(path_archivos + "vpn.txt", "r") as archivo:
-            contenido = archivo.readline().strip()
-            if contenido == "Disconnect":
-                color = "ff0000"
-            else:
-                color = "00ff00"
-            return color
-    except FileNotFoundError:
-        contenido = "Empty file"
-    return contenido
-
-
-color = color_vpn()
-
-
-def icono_vpn():
-    color = color_vpn()
-    if color == "00ff00":
-        icon = " "
-    else:
-        icon = " "
-    return icon
-
-
 widget_nota = GenPollText(func=obtener_nota, update_interval=5)
-widget_icono_vpn = GenPollText(
-    func=icono_vpn, fontsize=19, foreground=color, update_interval=60
-)
-widget_vpn = GenPollText(func=obtener_vpn, update_interval=60)
+widget_target = GenPollText(func=obtener_target, update_interval=5)
+widget_vpn = GenPollText(func=obtener_vpn, update_interval=30)
 widget_ip = GenPollText(
     func=obtener_ip,
-    update_interval=60,
+    update_interval=30,
 )
 
 # Configuracion
@@ -449,6 +427,7 @@ screens = [
                         ),
                     ],
                     text_closed=("󰕭"),
+                    foreground="ffffff",
                     text_open="󰕭",
                     fontsize=19,
                 ),
@@ -486,7 +465,7 @@ screens = [
             ],
             32,
             background="#010000",
-            opacity=0.85,
+            opacity=1,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[
                 "ffffff",
@@ -513,20 +492,31 @@ screens = [
                 widget.Spacer(),
                 separador(),
                 widget.TextBox(
-                    text="󰖟 ",
+                    text="󰩷 ",
                     fontsize=19,
-                    foreground=morado,
+                    foreground="ffffff",
+                ),
+                widget_target,
+                separador(),
+                widget.TextBox(
+                    text=" ",
+                    fontsize=16,
+                    foreground="ffffff",
+                ),
+                widget_vpn,
+                separador(),
+                widget.TextBox(
+                    text="󰖟 ",
+                    fontsize=18,
+                    foreground="ffffff",
                 ),
                 widget_ip,
-                separador(),
-                widget_icono_vpn,
-                widget_vpn,
                 separador(),
                 widget.Spacer(length=10),
             ],
             32,
             background="#010000",
-            opacity=0.85,
+            opacity=1,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[
                 "ffffff",

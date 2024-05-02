@@ -10,7 +10,6 @@ while true; do
 	else
 		ip="Disconnect"
 	fi
-
 	echo $ip >~/.config/qtile/Complementos/vpn.txt
 	sleep 60
 done

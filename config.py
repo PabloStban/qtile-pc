@@ -49,6 +49,7 @@ plomo = "404040"
 arch_size = 24
 arch_color = "#1793D1"
 iconos_sizes = 17
+amarillo = "#f2e900"
 path_archivos = "/home/pablo/.config/qtile/Complementos/"
 
 
@@ -128,13 +129,13 @@ keys = [
     Key(
         [mod],
         "F1",
-        lazy.hide_show_bar(position="top"),
+        lazy.hide_show_bar(position="bottom"),
         desc="Move focus to left",
     ),
     Key(
         [mod],
         "F2",
-        lazy.hide_show_bar(position="bottom"),
+        lazy.hide_show_bar(position="top"),
         desc="Move focus to left",
     ),
     # Switch between windows
@@ -315,7 +316,7 @@ keys = [
     ),
 ]
 
-groups = [Group(i) for i in ["", "", "󰝰", "", "󱓞", "", "", "󰙯", ""]]
+groups = [Group(i) for i in ["", "", "󰝰", "", "󱓞", "󰍹" ,"", "󰙯", ""]]
 
 for i, group in enumerate(groups):
     escritorio = str(i + 1)
@@ -377,7 +378,7 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        top=bar.Bar(
+        bottom=bar.Bar(
             [
                 widget.TextBox(
                     text=" 󰣇 ",
@@ -432,6 +433,11 @@ screens = [
                     fontsize=19,
                 ),
                 separador(),
+                widget.Cmus(
+                    play_color=morado,
+                    format='{artist}',
+                ),
+                separador(),
                 widget.CurrentLayout(),
                 separador(),
                 widget.TextBox(
@@ -464,8 +470,8 @@ screens = [
                 widget.Spacer(length=10),
             ],
             32,
-            background="#010000",
-            opacity=1,
+            background="#000000",
+            opacity=0.98,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[
                 "ffffff",
@@ -473,14 +479,15 @@ screens = [
                 "404040",
                 "ffffff",
             ],  # Borders are magenta
-            margin=[5, 10, 0, 10],
+            #margin=[5, 10, 0, 10],
+            margin=[0, 8, 5, 8],
         ),
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
         # By default we handle these events delayed to already improve performance, however your system might still be struggling
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
         # x11_drag_polling_rate = 60,
         #
-        bottom=bar.Bar(
+        top=bar.Bar(
             [
                 widget.Spacer(length=15),
                 widget.TextBox(
@@ -515,8 +522,9 @@ screens = [
                 widget.Spacer(length=10),
             ],
             32,
-            background="#010000",
-            opacity=1,
+            background="#000000",
+            #background="#3b4252",
+            opacity=0.98,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[
                 "ffffff",
@@ -524,7 +532,8 @@ screens = [
                 "404040",
                 "ffffff",
             ],  # Borders are magenta
-            margin=[0, 10, 5, 10],
+            #margin=[0, 10, 5, 10],
+            margin=[5, 8, 0, 8],
         ),
     ),
 ]

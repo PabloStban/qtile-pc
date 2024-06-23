@@ -13,6 +13,7 @@
 
 # iconos del sistema
 
+sed -i "s/corner-radius = 15/corner-radius = 8/" /home/pablo/.config/picom.conf
 qtile cmd-obj -o cmd -f hide_show_bar
 udiskie -t &
 nm-applet &

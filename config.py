@@ -112,10 +112,18 @@ def obtener_vpn():
         contenido = "Empty file"
     return contenido
 
+def clipboard():
+    try:
+        with open(path_archivos + "clipboard.txt", "r") as archivo:
+            contenido = archivo.readline().strip()
+    except FileNotFoundError:
+        contenido = "Empty file"
+    return contenido
 
-widget_nota = GenPollText(func=obtener_nota, update_interval=5)
+widget_nota = GenPollText(func=obtener_nota, update_interval=2)
 widget_target = GenPollText(func=obtener_target, update_interval=5)
 widget_vpn = GenPollText(func=obtener_vpn, update_interval=30)
+widget_clipboard = GenPollText(func=clipboard, update_interval=1)
 widget_ip = GenPollText(
     func=obtener_ip,
     update_interval=30,
@@ -499,6 +507,13 @@ screens = [
                 widget.Spacer(),
                 separador(),
                 widget.TextBox(
+                    text="󰆏 ",
+                    fontsize=19,
+                    foreground="ffffff",
+                ),
+                widget_clipboard,
+                separador(),
+                widget.TextBox(
                     text="󰩷 ",
                     fontsize=19,
                     foreground="ffffff",
@@ -604,3 +619,4 @@ def autostart():
     subprocess.Popen([home + "/.config/qtile/autostart.sh"])
     subprocess.Popen([home + "/.config/qtile/ip.sh"])
     subprocess.Popen([home + "/.config/qtile/vpn.sh"])
+    subprocess.Popen([home + "/.config/qtile/clipboard.sh"])

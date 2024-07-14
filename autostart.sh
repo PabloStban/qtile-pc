@@ -18,5 +18,5 @@ qtile cmd-obj -o cmd -f hide_show_bar
 udiskie -t &
 nm-applet &
 volumeicon &
-feh --bg-fill $HOME/Pictures/arch.png
+feh --bg-fill $HOME/Pictures/samurai.jpg
 picom &

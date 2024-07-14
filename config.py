@@ -45,7 +45,8 @@ from libqtile.config import Key
 fuente = "HackNerdFont"
 blanco = "ffffff"
 morado = "a15cef"
-plomo = "404040"
+#plomo = "404040"
+plomo = "5f5f5f"
 arch_size = 24
 arch_color = "#1793D1"
 iconos_sizes = 17
@@ -219,7 +220,6 @@ keys = [
         desc="Open i3lock",
     ),
     Key([mod], "e", lazy.spawn("thunar"), desc="Open Thunar"),
-    Key([mod], "y", lazy.hide_show_bar("top")),
     Key(
         [mod],
         "space",
@@ -250,14 +250,9 @@ keys = [
         ),
         desc="Move the floating window at the top right",
     ),
-    Key([mod], "o", lazy.window.move_to_bottom(), desc="Mover la ventana hacia atras"),
-    Key(
-        [mod, "shift"],
-        "o",
-        lazy.window.move_to_top(),
-        desc="Mover la ventana hacia adelante",
-    ),
-    Key([mod], "b", lazy.group.focus_back(), desc="Mover la ventana hacia atras"),
+    #Key([mod], "o", lazy.window.move_to_bottom(), desc="Mover la ventana hacia atras"),
+    Key([mod], "b", lazy.group.focus_back(),lazy.window.bring_to_front(), desc="Mover la ventana hacia atras"),
+    Key([mod], "o", lazy.group.focus_back(), desc="Mover la ventana hacia atras"),
     # Mover apps entre ventanas
     Key([mod], "bracketright", lazy.screen.next_group(), desc="Move to next group"),
     Key([mod], "bracketleft", lazy.screen.prev_group(), desc="Move to previous group"),
@@ -268,12 +263,13 @@ keys = [
     Key([mod, "shift"], "5", lazy.window.togroup("5")),
     Key([mod, "shift"], "6", lazy.window.togroup("6")),
     # Ventanas flotantes
-    Key(
-        [mod, "mod1"],
-        "t",
-        lazy.window.center(),
-        desc="Move the floating window at the center",
-    ),
+    #Key(
+    #[mod, "mod1"],
+    #"t",
+    #lazy.window.center(),
+    #desc="Move the floating window at the center",
+    #),
+
     Key(
         [mod, "shift"],
         "Left",
@@ -478,8 +474,10 @@ screens = [
                 widget.Spacer(length=10),
             ],
             32,
-            background="#000000",
-            opacity=0.98,
+            #background="#000000",
+            #background="#282a36",
+            background="#111111",
+            opacity=0.90,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[
                 "ffffff",
@@ -537,9 +535,9 @@ screens = [
                 widget.Spacer(length=10),
             ],
             32,
-            background="#000000",
+            background="#111111",
             #background="#3b4252",
-            opacity=0.98,
+            opacity=0.90,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[
                 "ffffff",

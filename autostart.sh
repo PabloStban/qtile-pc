@@ -18,5 +18,6 @@ qtile cmd-obj -o cmd -f hide_show_bar
 udiskie -t &
 nm-applet &
 volumeicon &
-feh --bg-fill $HOME/Pictures/samurai.jpg
+feh --bg-fill $HOME/Pictures/xenotrip.jpg
 picom &
+/home/pablo/.config/qtile/initial-clipboard.sh

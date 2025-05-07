@@ -206,7 +206,9 @@ keys = [
         lazy.spawn("i3lock -u -i /home/pablo/Pictures/i3.png"),
         desc="Open i3lock",
     ),
+
     Key([mod], "e", lazy.spawn("thunar"), desc="Open Thunar"),
+
     Key(
         [mod],
         "space",
@@ -413,14 +415,30 @@ screens = [
                     format='{name}',
                 ),
                 separador(),
-                widget.Cmus(
-                    play_color="ffffff",
-                    noplay_color="ff0000",
-                    format='{title}',
-                    max_chars=40,
+                widget.TextBox(
+                    text="󰆏 ",
+                    fontsize=17,
+                    foreground="ffffff",
+                    
                 ),
-                #widget.Spacer(),
+                widget.Clipboard(
+                    #blacklist_text='***********',
+                    fmt='<i>{}</i>',
+                    max_width=25,
+                    #scroll_clear=False,
+                    scroll_hide=False,
+                    #scroll_repeat=True,
+                    selection='CLIPBOARD',
+                    timeout=0,
+                ),
                 separador(),
+                #widget.Cmus(
+                #    play_color="ffffff",
+                #    noplay_color="ff0000",
+                #    format='{title}',
+                #    max_chars=40,
+                #),
+                #widget.Spacer(),
                 widget.WidgetBox(
                     widgets=[
                         separador(),
@@ -516,31 +534,15 @@ screens = [
                 widget_nota,
                 widget.Spacer(),
                 separador(),
-                widget.TextBox(
-                    text="󰆏 ",
-                    fontsize=17,
-                    foreground="ffffff",
-                    
-                ),
-                widget.Clipboard(
-                    #blacklist_text='***********',
-                    fmt='<i>{}</i>',
-                    max_width=25,
-                    #scroll_clear=False,
-                    scroll_hide=False,
-                    #scroll_repeat=True,
-                    selection='CLIPBOARD',
-                    timeout=0,
-                ),
-                separador(),
                 
-                #widget.TextBox(
-                #text="󰩷 ",
-                #fontsize=19,
-                #foreground="ffffff",
-                #),
-                #widget_target,
-                #separador(),
+                
+                widget.TextBox(
+                    text="󰩷 ",
+                    fontsize=19,
+                    foreground="ffffff",
+                ),
+                widget_target,
+                separador(),
                 
                 widget.TextBox(
                     text=" ",
@@ -612,6 +614,7 @@ floating_layout = layout.Floating(
         Match(wm_class="Qalculate-gtk"),
         Match(wm_class="tk"),
         Match(wm_class="kitty-float"),
+        Match(title="thunar-float"),
     ],
 )
 auto_fullscreen = True

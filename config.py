@@ -45,7 +45,7 @@ from libqtile.config import Key
 fuente = "HackNerdFont"
 blanco = "ffffff"
 morado = "a15cef"
-#plomo = "404040"
+# plomo = "404040"
 plomo = "5f5f5f"
 arch_size = 24
 arch_color = "#1793D1"
@@ -126,6 +126,7 @@ def obtener_vpn():
         contenido = "Empty file"
     return contenido
 
+
 def clipboard():
     try:
         with open(path_archivos + "clipboard.txt", "r") as archivo:
@@ -133,6 +134,7 @@ def clipboard():
     except FileNotFoundError:
         contenido = "Empty file"
     return contenido
+
 
 widget_nota = GenPollText(func=obtener_nota, update_interval=2)
 widget_target = GenPollText(func=obtener_target, update_interval=5)
@@ -168,17 +170,22 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "c", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "c", lazy.layout.next(),
+        desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
+        desc="Move window to the left"),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right(),
+        desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([mod, "control"], "h", lazy.layout.grow_left(),
+        desc="Grow window to the left"),
+    Key([mod, "control"], "l", lazy.layout.grow_right(),
+        desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
@@ -186,20 +193,26 @@ keys = [
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
-    Key([mod, "shift"],"Return",lazy.layout.toggle_split(),desc="Toggle between split and unsplit sides of stack"),
+    Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
+        desc="Toggle between split and unsplit sides of stack"),
     Key([mod], "Return", lazy.spawn("kitty"), desc="Open kitty terminal"),
-    Key([mod, "control"], "Return", lazy.spawn("alacritty"), desc="Open Alacritty terminal"),
+    Key([mod, "control"], "Return", lazy.spawn(
+        "alacritty"), desc="Open Alacritty terminal"),
     Key([mod], "Tab", lazy.next_layout(), desc="Next layout"),
     Key([mod, "shift"], "Tab", lazy.prev_layout(), desc="Previous layout"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window"),
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window",),
+    Key([mod], "f", lazy.window.toggle_fullscreen(),
+        desc="Toggle fullscreen on the focused window"),
+    Key([mod], "t", lazy.window.toggle_floating(),
+        desc="Toggle floating on the focused window",),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     # Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     # Comandos propios
-    Key([mod], "m", lazy.spawn("rofi -show drun"), desc="Open Rofi"),
-    Key([mod, "shift"], "f", lazy.spawn("firejail firefox"), desc="Open Firefox"),
+    Key([mod], "m", lazy.spawn(
+        "bash /home/pablo/.config/bin/rofimenu1.sh"), desc="Open Rofi"),
+    Key([mod, "shift"], "f", lazy.spawn(
+        "firejail firefox"), desc="Open Firefox"),
     Key(
         [mod, "shift"],
         "p",
@@ -217,12 +230,12 @@ keys = [
     ),
     Key([mod], "s", lazy.spawn("flameshot gui"), desc="Run flameshot"),
     Key([mod], "q", lazy.spawn("qalculate-gtk"), desc="Run Qalculate"),
-    #Key(
-        #["control", "mod1"],
-        #"t",
-        #lazy.spawn("alacritty --class Alacritty-float"),
-        #desc="Open Alacritty Float",
-        #),
+    # Key(
+    # ["control", "mod1"],
+    # "t",
+    # lazy.spawn("alacritty --class Alacritty-float"),
+    # desc="Open Alacritty Float",
+    # ),
     Key(
         ["control", "mod1"],
         "t",
@@ -247,12 +260,15 @@ keys = [
         ),
         desc="Move the floating window at the top right",
     ),
-    #Key([mod], "o", lazy.window.move_to_bottom(), desc="Mover la ventana hacia atras"),
-    Key([mod], "b", lazy.group.focus_back(),lazy.window.bring_to_front(), desc="Mover la ventana hacia atras"),
-    Key([mod], "o", lazy.group.focus_back(), desc="Mover la ventana hacia atras"),
+    # Key([mod], "o", lazy.window.move_to_bottom(), desc="Mover la ventana hacia atras"),
+    Key([mod], "b", lazy.group.focus_back(), lazy.window.bring_to_front(),
+        desc="Mover la ventana hacia atras"),
+    Key([mod], "o", lazy.group.focus_back(),
+        desc="Mover la ventana hacia atras"),
     # Mover apps entre ventanas
     Key([mod], "bracketright", lazy.screen.next_group(), desc="Move to next group"),
-    Key([mod], "bracketleft", lazy.screen.prev_group(), desc="Move to previous group"),
+    Key([mod], "bracketleft", lazy.screen.prev_group(),
+        desc="Move to previous group"),
     Key([mod, "shift"], "1", lazy.window.togroup("1")),
     Key([mod, "shift"], "2", lazy.window.togroup("2")),
     Key([mod, "shift"], "3", lazy.window.togroup("3")),
@@ -260,12 +276,12 @@ keys = [
     Key([mod, "shift"], "5", lazy.window.togroup("5")),
     Key([mod, "shift"], "6", lazy.window.togroup("6")),
     # Ventanas flotantes
-    #Key(
-    #[mod, "mod1"],
-    #"t",
-    #lazy.window.center(),
-    #desc="Move the floating window at the center",
-    #),
+    # Key(
+    # [mod, "mod1"],
+    # "t",
+    # lazy.window.center(),
+    # desc="Move the floating window at the center",
+    # ),
 
     Key(
         [mod, "shift"],
@@ -317,8 +333,7 @@ keys = [
     ),
 ]
 
-groups = [Group(i) for i in ["", "", "󰝰", "", "󱓞", "󰍹" ,"", "", "󰴙"]]
-
+groups = [Group(i) for i in ["", "", "󰝰", "", "󱓞", "󰍹", "A", "󰍹", "󰴙"]]
 for i, group in enumerate(groups):
     escritorio = str(i + 1)
     keys.extend(
@@ -335,7 +350,8 @@ for i, group in enumerate(groups):
                 [mod, "shift"],
                 escritorio,
                 lazy.window.togroup(group.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(group.name),
+                desc="Switch to & move focused window to group {}".format(
+                    group.name),
             ),
             # Or, use below if you prefer not to switch to that group.
             # # mod1 + shift + letter of group = move focused window to group
@@ -356,7 +372,7 @@ layouts = [
     layout.Spiral(
         border_width=0,
         margin=8,
-        #border_focus=morado,
+        # border_focus=morado,
     ),
     layout.MonadWide(
         border_width=0,
@@ -419,26 +435,26 @@ screens = [
                     text="󰆏 ",
                     fontsize=17,
                     foreground="ffffff",
-                    
+
                 ),
                 widget.Clipboard(
-                    #blacklist_text='***********',
+                    # blacklist_text='***********',
                     fmt='<i>{}</i>',
                     max_width=25,
-                    #scroll_clear=False,
+                    # scroll_clear=False,
                     scroll_hide=False,
-                    #scroll_repeat=True,
+                    # scroll_repeat=True,
                     selection='CLIPBOARD',
                     timeout=0,
                 ),
                 separador(),
-                #widget.Cmus(
+                # widget.Cmus(
                 #    play_color="ffffff",
                 #    noplay_color="ff0000",
                 #    format='{title}',
                 #    max_chars=40,
-                #),
-                #widget.Spacer(),
+                # ),
+                # widget.Spacer(),
                 widget.WidgetBox(
                     widgets=[
                         separador(),
@@ -482,7 +498,7 @@ screens = [
                     icon_size=iconos_sizes,
                     padding=5,
                 ),
-                
+
                 separador(),
                 widget.CapsNumLockIndicator(),
                 separador(),
@@ -491,7 +507,7 @@ screens = [
                 ),
                 separador(),
                 widget.Clock(
-                    format="%a %d-%m-%Y",
+                    format="%d-%m-%Y",
                     foreground=blanco,
                 ),
                 separador(),
@@ -504,17 +520,17 @@ screens = [
             ],
             32,
             background="#000000",
-            #background="#282a36",
-            #background="#111111",
+            # background="#282a36",
+            # background="#111111",
             opacity=0.93,
-            #border_width=[1, 1, 1, 1],  # Draw top and bottom borders
+            # border_width=[1, 1, 1, 1],  # Draw top and bottom borders
             border_color=[
                 "ffffff",
                 "ffffff",
                 "404040",
                 "ffffff",
             ],  # Borders are magenta
-            #margin=[5, 10, 0, 10],
+            # margin=[5, 10, 0, 10],
             margin=[0, 8, 5, 8],
         ),
 
@@ -534,8 +550,8 @@ screens = [
                 widget_nota,
                 widget.Spacer(),
                 separador(),
-                
-                
+
+
                 widget.TextBox(
                     text="󰩷 ",
                     fontsize=19,
@@ -543,7 +559,7 @@ screens = [
                 ),
                 widget_target,
                 separador(),
-                
+
                 widget.TextBox(
                     text=" ",
                     fontsize=16,
@@ -561,18 +577,18 @@ screens = [
                 widget.Spacer(length=10),
             ],
             32,
-            #background="#111111",
+            # background="#111111",
             background="#000000",
-            #background="#282a36",
+            # background="#282a36",
             opacity=0.93,
-            #border_width=[2, 2, 2, 2],  # Draw top and bottom borders
+            # border_width=[2, 2, 2, 2],  # Draw top and bottom borders
             border_color=[
                 "ffffff",
                 "ffffff",
                 "ffffff",
                 "ffffff",
             ],  # Borders are magenta
-            #margin=[0, 10, 5, 10],
+            # margin=[0, 10, 5, 10],
             margin=[5, 8, 0, 8],
         ),
     ),
@@ -641,7 +657,7 @@ wmname = "QTILE"
 
 # Parte de Startup
 # Al iniciar ejecuta autostart.sh
-@hook.subscribe.startup_once
+@ hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser("~")
     subprocess.Popen([home + "/.config/qtile/autostart.sh"])
